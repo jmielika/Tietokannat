@@ -50,17 +50,15 @@ public class Tietokanta {
       try {
         int top = Integer.parseInt(i.nextLine());
 
-        PreparedStatement p = c.prepareStatement("SELECT O.nimi nimi, SUM(K.laajuus) opMaara FROM Opettajat O, Kurssit K, Suoritukset S WHERE K.id=S.kurssi_id AND O.id=K.opettaja_id GROUP BY O.id ORDER BY opMaara DESC LIMIT ?");
+        PreparedStatement p = c.prepareStatement("SELECT O.nimi nimi, SUM(K.laajuus) opMaara FROM Opettajat O, Kurssit K, Suoritukset S WHERE K.id=S.kurssi_id AND O.id=K.opettaja_id GROUP BY O.id ORDER BY opMaara DESC LIMIT ?;");
         p.setString(1,""+top);
   
         ResultSet r = p.executeQuery();
-        if (r.next()) {
-          System.out.format("%8s %15s", "opettaja", "op");
-          System.out.println();
-          while (r.next()){
-            System.out.format("%17s %6d", r.getString("nimi"), r.getInt("opMaara"));
-            System.out.println();
-          }
+        System.out.println("opettaja \t\top");
+        while (r.next()){
+          if (r.getString("nimi").length() < 16) System.out.println(r.getString("nimi") +"\t\t" + r.getInt("opMaara"));
+          else System.out.println(r.getString("nimi") +"\t" + r.getInt("opMaara"));
+          
         }
       } catch (NumberFormatException | SQLException e) {
         System.out.println("Opettajien määrä pitää antaa numeroina. Valitse uusi");

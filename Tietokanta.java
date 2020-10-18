@@ -20,6 +20,7 @@ public class Tietokanta {
 
           if (toiminto == 5) {
             System.exit(0);
+            input.close();
           } else if (toiminto == 1) {
             haeVuodenOpintopisteet(connection);
           } else if (toiminto == 2) {
